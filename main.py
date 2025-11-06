@@ -16,16 +16,16 @@ def main():
     print("🤖 Processing with AI agent...")
     reply_text, all_ok, details, ignored = generate_reply(email_text, subject)
 
-    # 🛑 Skip vendor emails
+    #  Skip vendor emails
     if ignored:
         print("🚫 Ignored vendor email — no action taken.")
         return
 
-    # ✉️ Send AI reply to customer
+    #  Send AI reply to customer
     send_email(sender, f"Re: {subject}", reply_text)
     print("✅ Reply sent successfully.")
 
-    # 💾 Save in database
+    #  Save in database
     insert_record(
         sender,
         email_text,
@@ -40,4 +40,5 @@ def main():
 
 if __name__ == "__main__":
     init_db()
+
     main()
