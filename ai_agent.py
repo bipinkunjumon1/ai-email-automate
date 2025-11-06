@@ -3,22 +3,22 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
-from gmail_service import send_email  # ✅ For Gmail replies
+from gmail_service import send_email 
 
-# --------------------------------------------
+
 # Load environment variables
-# --------------------------------------------
+
 load_dotenv()
 
-# ✅ Configure Gemini model
+
 model = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
     google_api_key=os.getenv("GOOGLE_API_KEY") or "YOUR_API_KEY_HERE"
 )
 
-# --------------------------------------------
+
 # Prompt Template
-# --------------------------------------------
+
 prompt = ChatPromptTemplate.from_messages([
     ("system", "You are an AI email assistant for a food product shipping company."),
     ("human", """
@@ -41,21 +41,21 @@ Customer Email:
 chain = prompt | model
 
 
-# -------------------------------------------------
+
 # FUNCTION: Analyze and respond to customer emails
-# -------------------------------------------------
+
 def generate_reply(email_text: str, subject: str = "") -> tuple[str, bool, dict, bool]:
     """
     Analyze incoming email using Gemini + regex.
     Returns: (reply_text, all_details_collected, details_dict, ignored)
     """
 
-    # 🛑 Ignore vendor-related mails
+ 
     if "vendor" in subject.lower():
         print("⚠️ Ignored vendor email based on subject content.")
         return None, False, {}, True
 
-    # 🧠 Extract structured data
+ 
     details = {
         "order_id": None,
         "product_name": None,
@@ -64,7 +64,7 @@ def generate_reply(email_text: str, subject: str = "") -> tuple[str, bool, dict,
         "query_type": "order"  # default assumption
     }
 
-    # ✅ Improved Regex Patterns
+   
     order_id_match = re.search(r'(?i)(?:order[\s_-]*(?:id)?[\s#:=-]*)(\d{2,})', email_text)
     product_match = re.search(r'(?i)(?:product\s*(?:name)?[:\- ]*)([A-Za-z0-9\s]+)', email_text)
     price_match = re.search(r'(?i)(?:price|cost)[:\- ]*₹?\s?(\d+[,.]?\d*)', email_text)
@@ -79,7 +79,7 @@ def generate_reply(email_text: str, subject: str = "") -> tuple[str, bool, dict,
     if quantity_match:
         details["quantity"] = quantity_match.group(1).strip()
 
-    # ✅ Detect shipping-related keywords
+    # Detect shipping-related keywords
     shipping_keywords = [
         "delivery", "ship", "shipping", "status", "dispatched", "arrive", "track", "tracking",
         "where is my order", "delivered", "dispatch", "when will"
@@ -90,10 +90,10 @@ def generate_reply(email_text: str, subject: str = "") -> tuple[str, bool, dict,
     if is_shipping_query:
         details["query_type"] = "shipping"
 
-    # ✅ Validate completeness for orders
+    # Validate completeness for orders
     all_details_collected = bool(details["order_id"] and details["product_name"])
 
-    # 🗣️ Generate reply
+    #  Generate reply
     if is_shipping_query:
         # --- SHIPPING QUERY HANDLING ---
         if details["order_id"]:
@@ -141,9 +141,9 @@ def generate_reply(email_text: str, subject: str = "") -> tuple[str, bool, dict,
     return reply_text, all_details_collected, details, False
 
 
-# -------------------------------------------------
+
 # FUNCTION: Send shipment/payment update to customer
-# -------------------------------------------------
+
 def send_customer_update(customer_email, vendor_status, payment_amount, approved=True):
     if approved:
         subject = "Your Order Update – Product Shipment Confirmed"
@@ -178,9 +178,8 @@ AI Shipping Assistant
     print(f"✅ Sent update email to customer: {customer_email}")
 
 
-# -------------------------------------------------
 # Local Test
-# -------------------------------------------------
+
 if __name__ == "__main__":
     print("\n🧪 TEST 1 — ORDER MAIL\n")
     order_email = """
@@ -211,4 +210,5 @@ if __name__ == "__main__":
     reply, ok, det, ignored = generate_reply(shipping_email, subject="Delivery Status")
     if not ignored:
         print("🤖 AI Reply:\n", reply)
+
         print("🧩 Extracted Details:", det)
