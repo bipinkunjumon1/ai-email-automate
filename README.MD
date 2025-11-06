@@ -33,7 +33,7 @@ Built using *Python, **LangChain, **Streamlit, and **Gmail API*.
 
 ### 1️⃣ Clone this repo
 bash
-git clone https://github.com/yourusername/ai-email-agent.git
+git clone https://github.com/yourusername/ai-email-automate.git
 cd ai-email-agent
 
 ###2️⃣ Create virtual environment
@@ -91,3 +91,4 @@ vendor_reply_service.py
 ├── token.json                # Gmail auth token (auto-generated)
 
 └── README.md ```
+
