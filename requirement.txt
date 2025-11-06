@@ -1,0 +1,26 @@
+# Core dependencies
+python-dotenv
+requests
+langchain
+langchain-core
+langchain-google-genai
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+protobuf
+
+# Web & Dashboard
+streamlit
+fastapi
+uvicorn
+
+# Database
+sqlite-utils
+
+
+
+# Utilities
+regex
+
+
