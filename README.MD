@@ -76,7 +76,7 @@ vendor_reply_service.py
 
 ###🧠 Folder Structure
 
-ai-email-agent/
+``` ai-email-agent/
 │
 ├── app.py                    # Streamlit dashboard for manager
 ├── main.py                   # Main script that processes emails
@@ -89,4 +89,5 @@ ai-email-agent/
 ├── requirements.txt          # All dependencies
 ├── .env                      # API keys (not uploaded)
 ├── token.json                # Gmail auth token (auto-generated)
-└── README.md
+
+└── README.md ```
