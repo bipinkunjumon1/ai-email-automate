@@ -3,9 +3,9 @@ import os
 
 DB_FILE = "emails.db"
 
-# ---------------------------
+
 # Initialize DB & safe columns
-# ---------------------------
+
 def init_db():
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -43,9 +43,9 @@ def init_db():
     conn.close()
 
 
-# ---------------------------
+
 # Insert a new email record
-# ---------------------------
+
 def insert_record(sender, email_text, reply_text, product_name, price, quantity, ready):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -58,9 +58,9 @@ def insert_record(sender, email_text, reply_text, product_name, price, quantity,
     conn.close()
 
 
-# ---------------------------
+
 # Fetch all records
-# ---------------------------
+
 def get_all_records():
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -70,9 +70,9 @@ def get_all_records():
     return rows
 
 
-# ---------------------------
+
 # Mark as approved
-# ---------------------------
+
 def mark_as_approved(record_id, vendor_email=None):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -84,9 +84,8 @@ def mark_as_approved(record_id, vendor_email=None):
     conn.close()
 
 
-# ---------------------------
 # Update vendor info by record ID
-# ---------------------------
+
 def save_vendor_update(record_id, vendor_status, payment_amount, pdf1_path=None, pdf2_path=None):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -100,9 +99,9 @@ def save_vendor_update(record_id, vendor_status, payment_amount, pdf1_path=None,
     conn.close()
 
 
-# ---------------------------
+
 # Update vendor info by sender email (or most recent unmatched record)
-# ---------------------------
+
 def update_vendor_reply(sender_email, vendor_status, payment_amount, pdf1_path=None, pdf2_path=None, vendor_email=None):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -138,9 +137,9 @@ def update_vendor_reply(sender_email, vendor_status, payment_amount, pdf1_path=N
 
 
 
-# ---------------------------
+
 # Manager decision
-# ---------------------------
+
 def update_manager_decision(record_id, decision):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -153,10 +152,9 @@ def update_manager_decision(record_id, decision):
     conn.close()
 
 
-# ---------------------------
+
 # Fetch vendor updates pending manager approval
-# Only show if PDFs exist on disk
-# ---------------------------
+
 def get_pending_vendor_updates():
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
@@ -172,10 +170,8 @@ def get_pending_vendor_updates():
 
 
 
-# ---------------------------
-# Debug utility
-# ---------------------------
 def print_all_records():
     rows = get_all_records()
     for r in rows:
+
         print(r)
